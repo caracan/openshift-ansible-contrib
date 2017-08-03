@@ -1008,6 +1008,30 @@
             "Type": "A",
 			"TTL": "300",
 		    "ResourceRecords": [{ "Fn::GetAtt" : ["AppNode02", "PrivateIp"] }]
+          },
+          {
+            "Name": {"Fn::Join": [".", ["ose-app-node03",{"Ref": "Route53HostedZone"}]]},
+            "Type": "A",
+			"TTL": "300",
+		    "ResourceRecords": [{ "Fn::GetAtt" : ["AppNode03", "PrivateIp"] }]
+          },
+          {
+            "Name": {"Fn::Join": [".", ["ose-app-node04",{"Ref": "Route53HostedZone"}]]},
+            "Type": "A",
+			"TTL": "300",
+		    "ResourceRecords": [{ "Fn::GetAtt" : ["AppNode04", "PrivateIp"] }]
+          },
+          {
+            "Name": {"Fn::Join": [".", ["ose-app-node05",{"Ref": "Route53HostedZone"}]]},
+            "Type": "A",
+			"TTL": "300",
+		    "ResourceRecords": [{ "Fn::GetAtt" : ["AppNode05", "PrivateIp"] }]
+          },
+          {
+            "Name": {"Fn::Join": [".", ["ose-app-node06",{"Ref": "Route53HostedZone"}]]},
+            "Type": "A",
+			"TTL": "300",
+		    "ResourceRecords": [{ "Fn::GetAtt" : ["AppNode06", "PrivateIp"] }]
           }
         ]
       }
@@ -1452,6 +1476,194 @@
          ]
      }
    },
+      "AppNode03" : {
+         "Type" : "AWS::EC2::Instance",
+         "DependsOn": ["NodeInstanceProfile"],
+         "Properties" : {
+            "ImageId" : {"Ref": "AmiId"},
+            "UserData": {"Ref": "NodeUserData"},
+            "KeyName" : {"Ref": "KeyName"},
+            "InstanceType": {"Ref": "AppNodeInstanceType"},
+  	  "SecurityGroupIds": [{ "Fn::GetAtt" : ["NodeSG", "GroupId"] }],
+            "SubnetId" : {"Ref": "PrivateSubnet3"},
+  	  "IamInstanceProfile": { "Ref": "NodeInstanceProfile" },
+            "Tags": [
+              { "Key": "Name",
+                "Value": {"Fn::Join": [".", ["ose-app-node03",{"Ref": "PublicHostedZone"}]]}
+              },
+              { "Key": "openshift-role",
+                "Value": "app"
+              }
+            ],
+            "BlockDeviceMappings" : [
+            {
+              "DeviceName": "/dev/sda1",
+              "Ebs": {
+                "DeleteOnTermination": "true",
+                "VolumeSize": {"Ref": "NodeRootVolSize"},
+                "VolumeType": {"Ref": "NodeRootVolType"}
+              }
+            },
+            {
+              "DeviceName": "/dev/xvdb",
+              "Ebs": {
+                "DeleteOnTermination": "true",
+                "VolumeSize": {"Ref": "NodeDockerVolSize"},
+                "VolumeType": {"Ref": "NodeDockerVolType"}
+              }
+            },
+            {
+              "DeviceName": "/dev/xvdc",
+              "Ebs": {
+                "DeleteOnTermination": "true",
+                "VolumeSize": {"Ref": "NodeEmptyVolSize"},
+                "VolumeType": {"Ref": "NodeEmptyVolType"}
+              }
+            }
+           ]
+       }
+     },
+        "AppNode04" : {
+           "Type" : "AWS::EC2::Instance",
+           "DependsOn": ["NodeInstanceProfile"],
+           "Properties" : {
+              "ImageId" : {"Ref": "AmiId"},
+              "UserData": {"Ref": "NodeUserData"},
+              "KeyName" : {"Ref": "KeyName"},
+              "InstanceType": {"Ref": "AppNodeInstanceType"},
+    	  "SecurityGroupIds": [{ "Fn::GetAtt" : ["NodeSG", "GroupId"] }],
+              "SubnetId" : {"Ref": "PrivateSubnet1"},
+    	  "IamInstanceProfile": { "Ref": "NodeInstanceProfile" },
+              "Tags": [
+                { "Key": "Name",
+                  "Value": {"Fn::Join": [".", ["ose-app-node04",{"Ref": "PublicHostedZone"}]]}
+                },
+                { "Key": "openshift-role",
+                  "Value": "app"
+                }
+              ],
+              "BlockDeviceMappings" : [
+              {
+                "DeviceName": "/dev/sda1",
+                "Ebs": {
+                  "DeleteOnTermination": "true",
+                  "VolumeSize": {"Ref": "NodeRootVolSize"},
+                  "VolumeType": {"Ref": "NodeRootVolType"}
+                }
+              },
+              {
+                "DeviceName": "/dev/xvdb",
+                "Ebs": {
+                  "DeleteOnTermination": "true",
+                  "VolumeSize": {"Ref": "NodeDockerVolSize"},
+                  "VolumeType": {"Ref": "NodeDockerVolType"}
+                }
+              },
+              {
+                "DeviceName": "/dev/xvdc",
+                "Ebs": {
+                  "DeleteOnTermination": "true",
+                  "VolumeSize": {"Ref": "NodeEmptyVolSize"},
+                  "VolumeType": {"Ref": "NodeEmptyVolType"}
+                }
+              }
+             ]
+         }
+       },
+          "AppNode05" : {
+             "Type" : "AWS::EC2::Instance",
+             "DependsOn": ["NodeInstanceProfile"],
+             "Properties" : {
+                "ImageId" : {"Ref": "AmiId"},
+                "UserData": {"Ref": "NodeUserData"},
+                "KeyName" : {"Ref": "KeyName"},
+                "InstanceType": {"Ref": "AppNodeInstanceType"},
+      	  "SecurityGroupIds": [{ "Fn::GetAtt" : ["NodeSG", "GroupId"] }],
+                "SubnetId" : {"Ref": "PrivateSubnet2"},
+      	  "IamInstanceProfile": { "Ref": "NodeInstanceProfile" },
+                "Tags": [
+                  { "Key": "Name",
+                    "Value": {"Fn::Join": [".", ["ose-app-node05",{"Ref": "PublicHostedZone"}]]}
+                  },
+                  { "Key": "openshift-role",
+                    "Value": "app"
+                  }
+                ],
+                "BlockDeviceMappings" : [
+                {
+                  "DeviceName": "/dev/sda1",
+                  "Ebs": {
+                    "DeleteOnTermination": "true",
+                    "VolumeSize": {"Ref": "NodeRootVolSize"},
+                    "VolumeType": {"Ref": "NodeRootVolType"}
+                  }
+                },
+                {
+                  "DeviceName": "/dev/xvdb",
+                  "Ebs": {
+                    "DeleteOnTermination": "true",
+                    "VolumeSize": {"Ref": "NodeDockerVolSize"},
+                    "VolumeType": {"Ref": "NodeDockerVolType"}
+                  }
+                },
+                {
+                  "DeviceName": "/dev/xvdc",
+                  "Ebs": {
+                    "DeleteOnTermination": "true",
+                    "VolumeSize": {"Ref": "NodeEmptyVolSize"},
+                    "VolumeType": {"Ref": "NodeEmptyVolType"}
+                  }
+                }
+               ]
+           }
+         },
+            "AppNode06" : {
+               "Type" : "AWS::EC2::Instance",
+               "DependsOn": ["NodeInstanceProfile"],
+               "Properties" : {
+                  "ImageId" : {"Ref": "AmiId"},
+                  "UserData": {"Ref": "NodeUserData"},
+                  "KeyName" : {"Ref": "KeyName"},
+                  "InstanceType": {"Ref": "AppNodeInstanceType"},
+        	  "SecurityGroupIds": [{ "Fn::GetAtt" : ["NodeSG", "GroupId"] }],
+                  "SubnetId" : {"Ref": "PrivateSubnet3"},
+        	  "IamInstanceProfile": { "Ref": "NodeInstanceProfile" },
+                  "Tags": [
+                    { "Key": "Name",
+                      "Value": {"Fn::Join": [".", ["ose-app-node06",{"Ref": "PublicHostedZone"}]]}
+                    },
+                    { "Key": "openshift-role",
+                      "Value": "app"
+                    }
+                  ],
+                  "BlockDeviceMappings" : [
+                  {
+                    "DeviceName": "/dev/sda1",
+                    "Ebs": {
+                      "DeleteOnTermination": "true",
+                      "VolumeSize": {"Ref": "NodeRootVolSize"},
+                      "VolumeType": {"Ref": "NodeRootVolType"}
+                    }
+                  },
+                  {
+                    "DeviceName": "/dev/xvdb",
+                    "Ebs": {
+                      "DeleteOnTermination": "true",
+                      "VolumeSize": {"Ref": "NodeDockerVolSize"},
+                      "VolumeType": {"Ref": "NodeDockerVolType"}
+                    }
+                  },
+                  {
+                    "DeviceName": "/dev/xvdc",
+                    "Ebs": {
+                      "DeleteOnTermination": "true",
+                      "VolumeSize": {"Ref": "NodeEmptyVolSize"},
+                      "VolumeType": {"Ref": "NodeEmptyVolType"}
+                    }
+                  }
+                 ]
+             }
+           },
     "S3UserName" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
